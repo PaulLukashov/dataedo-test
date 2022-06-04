@@ -2,9 +2,9 @@
   <button class="fetch-data"
           (click)="fetchData()">Fetch data</button>
   <div class="loaded-data"
-       *ngIf="fetchedData">
+       *ngIf="!isLoading">
     <pre>{{ fetchedData | json }}</pre>
   </div>
-  <p *ngIf="!fetchData">Loading...</p>
+  <p *ngIf="isLoading">Loading...</p>
 
 </div>
