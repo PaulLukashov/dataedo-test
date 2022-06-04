@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { finalize } from 'rxjs/operators';
 import { User } from './core/models/user';
 import { FetchDataService } from './core/services/fetch-data.service';
 
@@ -9,12 +10,20 @@ import { FetchDataService } from './core/services/fetch-data.service';
 })
 export class AppComponent {
   fetchedData!: User[] | User;
+  isLoading = false;
 
   constructor(private dataService: FetchDataService) {}
 
   fetchData() {
+    this.isLoading = true;
+
     this.dataService
       .fetchData()
+      .pipe(
+        finalize(() => {
+          this.isLoading = false;
+        })
+      )
       .subscribe(
         (res) =>
           (this.fetchedData = res.filter(
